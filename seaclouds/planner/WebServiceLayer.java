@@ -5,11 +5,11 @@
 
 package seaclouds.planner;
 
-/* optimizer */
-import eu.seaclouds.platform.planner.optimizer;
-
 /* tosca parser by Leonardo */
 import seaclouds.utils.toscamodel.*;
+
+/* matchmaker by Leonardo (?) */
+import seaclouds.planner.*;
 
 /* servlet */
 import java.io.*;
@@ -20,11 +20,14 @@ import javax.servlet.http.*;
 import org.json.simple.parser.*;
 import org.json.simple.*;
 
+/* Map */
+import java.util.*;
+
 
 public class WebServiceLayer extends HttpServlet {
-	private PlannerInterface planner;
 	private JSONParser jsonParser;
-	private Optimizer optimizer;
+	private DummyOptimizer optimizer;
+	private Matchmaker matchmaker;
 	
 	
 	/* *********************************************************** */
@@ -41,9 +44,9 @@ public class WebServiceLayer extends HttpServlet {
 	/* *********************************************************** */
 	
 	public void init() { // throws ServletException {
-		this.planner = new SimplePlanner();
+		this.matchmaker = new Matchmaker(Tosca.newEnvironment());
 		this.jsonParser = new JSONParser();
-		this.optimizer = new Optimizer();
+		this.optimizer = new DummyOptimizer();
 	}
 	
 
@@ -87,23 +90,17 @@ public class WebServiceLayer extends HttpServlet {
 			return;
 		}
 		
-		/* putting on stream */
+		/* putting on stream and parsing */
 		StringReader sr = new StringReader(strAam);
-		
-		/* parsing */
 		IToscaEnvironment aam = Tosca.newEnvironment();
 		aam.readFile(sr, false);
 		
-		/* invoking the planner and matchmaker*/
-		DeploymentModel[] dm = this.planner.plan(aam);
-		Map<String, IToscaEnvironment> cods = this.planner.match(aam);
-		
-		/* invoking the optimizer */
-		String[] oR = optimizer.optimize(aam, cods);
+		/* invoking matchmaker and optimizer */
+		Map<INodeTemplate, List<INodeType>> cloudOfferings = matchmaker.Match(aam);
+		Object optimizerResult = optimizer.optimize(aam, cloudOfferings);
 		
 		/* response to the caller */
-		// .. to do ..
-		
+		out.print(optimizerResult);
 		return;
 	}
 
