@@ -23,13 +23,13 @@ public class SimplePlanner implements PlannerInterface {
 	/* *********************************************************** */
 	
 	@Override
-	public DeploymentModel[] plan(AbstractApplicationModel aam) {
+	public DeploymentModel[] plan(IToscaEnvironment aam) {
 		return null;
 	}
 	
 	
 	@Override
-	public Map<String, CloudOfferingDocument> match(AbstractApplicationModel aam) {
+	public Map<String, CloudOfferingDocument> match(IToscaEnvironment aam) {
 		return null;
 	}
 	

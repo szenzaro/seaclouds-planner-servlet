@@ -3,13 +3,21 @@
  *
  **/
 
+
 package seaclouds.planner;
 
+
+/* tosca parser by Leonardo */
+import seaclouds.utils.toscamodel.*;
+
+
+/* map */
 import java.util.*;
+
 
 public interface PlannerInterface {
 
-	public DeploymentModel[] plan(AbstractApplicationModel aam); // data types might be changed later
-	public Map<String, CloudOfferingDocument> match(AbstractApplicationModel aam); // data types might be changed later
+	public DeploymentModel[] plan(IToscaEnvironment aam); // data types might be changed later
+	public Map<String, IToscaEnvironment> match(IToscaEnvironment aam); // data types might be changed later
 
 }

@@ -6,6 +6,6 @@
 package seaclouds.planner;
 
 // note: dummy class. May change later.
-public class AbstractApplicationModel {
+public class AbstractApplicationModel extends ToscaEnvironment {
 
 }

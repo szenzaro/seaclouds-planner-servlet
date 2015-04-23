@@ -5,6 +5,9 @@
 
 package seaclouds.planner;
 
+/* optimizer */
+import eu.seaclouds.platform.planner.optimizer;
+
 /* tosca parser by Leonardo */
 import seaclouds.utils.toscamodel.*;
 
@@ -21,6 +24,7 @@ import org.json.simple.*;
 public class WebServiceLayer extends HttpServlet {
 	private PlannerInterface planner;
 	private JSONParser jsonParser;
+	private Optimizer optimizer;
 	
 	
 	/* *********************************************************** */
@@ -28,7 +32,6 @@ public class WebServiceLayer extends HttpServlet {
 	/* *********************************************************** */
 	
 	public WebServiceLayer() throws ServletException {
-		init();
 	}
 	
 	
@@ -40,6 +43,7 @@ public class WebServiceLayer extends HttpServlet {
 	public void init() { // throws ServletException {
 		this.planner = new SimplePlanner();
 		this.jsonParser = new JSONParser();
+		this.optimizer = new Optimizer();
 	}
 	
 
@@ -59,6 +63,14 @@ public class WebServiceLayer extends HttpServlet {
 	
 	public void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws IOException, ServletException {		
+				
+		/* 
+		 * NOTE: current version of this servles is ****SEQUENTIAL**** and
+		 * it does NOT use multithreading explicitly!
+		 *
+		 **/
+		
+				
 		/* the output stream */
 		PrintWriter out = response.getWriter();
 				
@@ -75,7 +87,6 @@ public class WebServiceLayer extends HttpServlet {
 			return;
 		}
 		
-		
 		/* putting on stream */
 		StringReader sr = new StringReader(strAam);
 		
@@ -84,10 +95,16 @@ public class WebServiceLayer extends HttpServlet {
 		aam.readFile(sr, false);
 		
 		/* invoking the planner and matchmaker*/
+		DeploymentModel[] dm = this.planner.plan(aam);
+		Map<String, IToscaEnvironment> cods = this.planner.match(aam);
 		
 		/* invoking the optimizer */
+		String[] oR = optimizer.optimize(aam, cods);
 		
 		/* response to the caller */
+		// .. to do ..
+		
+		return;
 	}
 
 }
