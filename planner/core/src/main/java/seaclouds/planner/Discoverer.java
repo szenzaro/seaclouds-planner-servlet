@@ -20,7 +20,7 @@ public class Discoverer {
 
     private Discoverer() {
         offerings = Tosca.newEnvironment();
-        try {
+        /* try {
             //configure discoverer
             InputStream stream;
             CodeSource src = this.getClass().getProtectionDomain().getCodeSource();
@@ -37,15 +37,17 @@ public class Discoverer {
                 }
 
             }
-            //stream = this.getClass().getResourceAsStream("offerings/amazon_c1_xlarge.yaml");
-            //offerings.readFile(new InputStreamReader(stream));
-            //stream = this.getClass().getResourceAsStream("offerings/platform_offerings_test.yaml");
-            //offerings.readFile(new InputStreamReader(stream));
-            //stream = this.getClass().getResourceAsStream("input/hp_cloud_serv.yaml");
-            //offerings.readFile(new InputStreamReader(stream), true);
         } catch (IOException e) {
 
-        }
+        } */
+
+		InputStream stream;
+		stream = this.getClass().getResourceAsStream("offerings/amazon_c1_xlarge.yaml");
+        offerings.readFile(new InputStreamReader(stream));
+        stream = this.getClass().getResourceAsStream("offerings/platform_offerings_test.yaml");
+        offerings.readFile(new InputStreamReader(stream));
+        stream = this.getClass().getResourceAsStream("offerings/hp_cloud_serv.yaml");
+        offerings.readFile(new InputStreamReader(stream));
     }
 
     public IToscaEnvironment getOfferings(){

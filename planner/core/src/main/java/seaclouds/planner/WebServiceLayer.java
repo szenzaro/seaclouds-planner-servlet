@@ -162,7 +162,6 @@ public class WebServiceLayer extends HttpServlet {
 		JSONObject responseData = new JSONObject();
 		int offerIndex = 0;
 		for(IToscaEnvironment currentOffer : optOffers) {
-			INamedEntity ee = (INamedEntity) currentOffer;
 			responseData.put("offer_" + offerIndex, iteToString(currentOffer));
 			offerIndex++;
 		}
