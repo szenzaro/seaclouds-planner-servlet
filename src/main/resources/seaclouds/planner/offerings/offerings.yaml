@@ -9,14 +9,21 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 tosca_definitions_version: tosca_simple_yaml_1_0_0
+
 topology_template:
-  node_templates:
-    seaclouds.nodes.Compute.Amazon.c1.xlarge:
+    node_templates:
+      aws-ed2:us-west-2:
         type: seaclouds.nodes.Compute.Amazon
-        attributes:
-            location: 'seaclouds.types.Locations.AM.US.OR.Portland'
-            #operating_system: 'seaclouds.types.os.linux.ubuntu'
-            num_cpus: 8
-            mem_size: 7 GB
-            disk_type: 'sata'
-            local_storage: 2 TB
+        properties:
+          num_cpus: 4
+          availability: 98.0
+
+      seaclouds-hpcloud-region-b:
+        type: seaclouds.nodes.Compute.HP
+        properties:
+          num_cpus: 6
+          disk_size: 1 TB
+          scaling_vertical: auto
+          availability: 99.8    
+
+
